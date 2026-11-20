@@ -52,7 +52,7 @@
   var header = $("#site-header");
   if (header) {
     var logo = B.logo
-      ? '<img src="' + esc(B.logo) + '" alt="' + esc(B.name) + ' – לוגו"><span class="logo__name">' + esc(B.name) + '<small>BROWS · MAKEUP</small></span>'
+      ? '<img src="' + esc(B.logoIcon || B.logo) + '" alt="' + esc(B.name) + ' – לוגו"><span class="logo__name">' + esc(B.name) + '<small>BROWS · MAKEUP</small></span>'
       : '<span class="logo__name" style="display:block">' + esc(B.name) + '<small>BROWS · MAKEUP</small></span>';
     header.outerHTML =
       '<header class="header' + (page !== "home" ? " header--solid" : "") + '" id="header">' +

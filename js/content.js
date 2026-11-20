@@ -14,6 +14,7 @@ window.SITE = {
   business: {
     name: "שיפרה גבות",
     logo: "images/logo.png",
+    logoIcon: "images/monogram.png",   // גרסה קטנה של הלוגו (בלי הכיתוב) לשורת התפריט
     phone: "052-8799992",
     whatsapp: "972528799992",   // מספר בפורמט בינלאומי: 972 ואחריו המספר בלי ה-0
     address: "הורדים 26, נשר",

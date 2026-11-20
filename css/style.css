@@ -1,7 +1,7 @@
 /* ===== שיפרה גבות – עיצוב (לבן · אדום · שחור) ===== */
 :root {
-  --red: #e50112;
-  --red-deep: #a3000d;
+  --red: #c70008;
+  --red-deep: #9a0007;
   --red-dark: #6e0009;
   --blush: #fdf1f1;
   --blush-2: #fbe4e4;
@@ -55,8 +55,8 @@ em, .italic { font-style: italic; }
   transition: transform .2s, box-shadow .2s, background .2s, color .2s;
 }
 .btn:hover { transform: translateY(-2px); }
-.btn--red { background: var(--red); color: #fff; box-shadow: 0 8px 22px rgba(229,1,18,.28); }
-.btn--red:hover { background: #c70010; }
+.btn--red { background: var(--red); color: #fff; box-shadow: 0 8px 22px rgba(199,0,8,.28); }
+.btn--red:hover { background: #a50007; }
 .btn--white { background: #fff; color: var(--red); }
 .btn--white:hover { box-shadow: 0 8px 22px rgba(0,0,0,.18); }
 .btn--outline { border-color: var(--red); color: var(--red); background: #fff; }
@@ -121,7 +121,7 @@ em, .italic { font-style: italic; }
 /* ---------- Red banner ---------- */
 .banner {
   position: relative; overflow: hidden; border-radius: 26px; margin-top: 28px; text-align: right;
-  background: radial-gradient(ellipse at 15% 50%, #d5000f 0%, transparent 60%), linear-gradient(120deg, var(--red-dark), var(--red-deep) 55%, #c4000f);
+  background: radial-gradient(ellipse at 15% 50%, #c9000b 0%, transparent 60%), linear-gradient(120deg, var(--red-dark), var(--red-deep) 55%, #c4000f);
   color: #fff; padding: 46px 48px; min-height: 280px; display: flex; align-items: center;
   box-shadow: 0 20px 40px rgba(163,0,13,.25);
 }
