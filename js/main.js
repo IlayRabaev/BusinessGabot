@@ -150,7 +150,9 @@
       }).join("");
     } else {
       rv.innerHTML = '<div class="reviews-empty reveal"><div class="stars">★★★★★</div>' +
-        '<h3>הלקוחות ממליצות</h3><p>היית אצלי? אשמח מאוד אם תשאירי ביקורת בגוגל. זה עוזר לעוד נשים למצוא אותי 💕</p></div>';
+        '<h3>הלקוחות ממליצות</h3>' +
+        (B.googleRating && B.googleReviewsCount ? '<p><b>' + esc(B.googleRating) + '</b> בגוגל · ' + esc(B.googleReviewsCount) + ' ביקורות</p>' : "") +
+        '<p>היית אצלי? אשמח מאוד אם תשאירי ביקורת בגוגל. זה עוזר לעוד נשים למצוא אותי 💕</p></div>';
     }
   }
 

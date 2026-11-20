@@ -28,5 +28,5 @@
 ## העלאה לאוויר (GitHub Pages)
 1. ב-GitHub: **Settings ← Pages**.
 2. תחת **Branch** בוחרים `main` ואת התיקייה `/ (root)`, ולוחצים **Save**.
-3. אחרי כמה דקות האתר זמין בכתובת `https://<שם-המשתמש>.github.io/BusinessGabot/`.
+3. אחרי כמה דקות האתר זמין בכתובת `https://shifragabot-commits.github.io/`.
 4. רוצה דומיין משלך (למשל `shifra-gabot.co.il`)? מוסיפים אותו באותו מסך, בשדה **Custom domain**.
