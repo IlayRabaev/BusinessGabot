@@ -55,7 +55,7 @@ h3{font-size:1rem;font-weight:700}
 header.top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px}
 .brand{display:flex;align-items:center;gap:10px}
 .brand svg{flex:none}
-.mode{font-size:.75rem;color:var(--muted);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:2px 10px}
+.mode{font:inherit;cursor:pointer;font-size:.75rem;color:var(--muted);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:2px 10px}
 section.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;display:flex;flex-direction:column;gap:12px}
 main{display:flex;flex-direction:column;gap:16px}
 .label{font-size:.75rem;letter-spacing:.06em;color:var(--muted);font-weight:700}
@@ -268,7 +268,7 @@ img{max-width:100%}
       <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><circle cx="17" cy="17" r="15" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M17 9l6 4.4-2.3 7h-7.4L11 13.4z" fill="currentColor"/><path d="M17 9V3M23 13.4l5.5-2M20.7 20.4l3.6 4.8M13.3 20.4l-3.6 4.8M11 13.4l-5.5-2" stroke="currentColor" stroke-width="2"/></svg>
       <h1>המגרש השכונתי</h1>
     </div>
-    <span class="mode" id="mode">טוען…</span>
+    <button class="mode" id="mode" type="button">טוען…</button>
   </header>
   <div class="install" id="install" hidden><span></span><button class="btn small primary go">התקן</button><button class="x" aria-label="סגור">×</button></div>
   <main id="view"><section class="card"><p class="muted">טוען את הנתונים של המגרש…</p></section></main>
@@ -313,13 +313,13 @@ function dbBackend(db){
   return{
     start(){
       const seen={};const cols=["players","games","signups","votes"];
-      const timer=setTimeout(()=>{S.ready=true;S.stale=true;render()},10000);
+      const timer=setTimeout(()=>{S.ready=true;S.stale=true;S.connErr=S.connErr||"timeout — השרת לא ענה תוך 10 שניות";render()},10000);
       for(const c of cols){
         db.collection(c).onSnapshot(snap=>{
           S[c]=snap.docs.map(d=>({...d.data(),id:d.id}));seen[c]=true;
           if(cols.every(x=>seen[x])){S.ready=true;if(!snap.metadata.fromCache){clearTimeout(timer);S.stale=false}}
           render();
-        },err=>{clearTimeout(timer);S.ready=true;S.stale=true;render()});
+        },err=>{clearTimeout(timer);S.ready=true;S.stale=true;S.connErr=(err&&(err.raw||err.code)||"error")+(err&&err.message?" — "+err.message:"");render()});
       }
     },
     put:(c,id,o)=>chain(c+id,()=>db.collection(c).doc(id).set(strip(o))).catch(fail),
@@ -764,7 +764,7 @@ function viewHistory(){
 
 function render(){
   const a=document.activeElement,fid=a&&a.id,sel=a&&a.selectionStart!=null?[a.selectionStart,a.selectionEnd]:null;
-  document.getElementById("mode").textContent=S.mode==="db"?(S.stale?"לא מחובר — ייתכן שלא עדכני":S.readOnly?"צפייה בלבד":"משותף לכל השכונה"):S.mode==="local"?"נשמר במכשיר הזה":"טוען…";
+  document.getElementById("mode").textContent=S.mode==="db"?(S.stale?"לא מחובר — לחץ לפרטים":S.readOnly?"צפייה בלבד":"משותף לכל השכונה"):S.mode==="local"?"נשמר במכשיר הזה":"טוען…";
   document.getElementById("tabs").innerHTML=TABS.map(([k,l])=>`<button data-tab="${k}" ${S.tab===k?'aria-current="page"':""}>${ICON[k]}<span>${l}</span></button>`).join("");
   if(!S.ready)return;
   const v=document.getElementById("view");
@@ -850,6 +850,8 @@ document.addEventListener("input",e=>{const el=e.target;
 document.addEventListener("keydown",e=>{if(e.key==="Enter"&&e.target.id==="f-pname"){ACT.addPlayer()}
   if(e.key==="Escape"&&!document.getElementById("sheet").hidden)document.getElementById("sheetNo").click()});
 
+document.getElementById("mode").addEventListener("click",()=>{if(S.mode!=="db"||!S.stale)return;
+  ask("אין חיבור לשרת.\n\nפרטים: "+(S.connErr||"לא ידוע")+(window.FB_AUTH_ERR?"\nכניסה: "+window.FB_AUTH_ERR:"")+"\n\nלנסות שוב?",()=>location.reload())});
 
 /* ---------- Firebase: same call shape as the page store (collection().onSnapshot / doc().set|update|delete) ---------- */
 const FB="https://www.gstatic.com/firebasejs/10.12.2/";
@@ -857,9 +859,9 @@ async function connectFirebase(){
   const cfg=window.FIREBASE_CONFIG;if(!cfg||!cfg.projectId||/YOUR_/.test(cfg.apiKey||""))return null;
   const [A,F,Au]=await Promise.all([import(FB+"firebase-app.js"),import(FB+"firebase-firestore.js"),import(FB+"firebase-auth.js")]);
   const app=A.initializeApp(cfg);
-  try{await Au.signInAnonymously(Au.getAuth(app))}catch(e){console.warn("anonymous sign-in failed — enable Anonymous in Firebase Authentication",e)}
+  try{await Au.signInAnonymously(Au.getAuth(app))}catch(e){window.FB_AUTH_ERR=(e&&e.code||"")+" "+(e&&e.message||"");console.warn("anonymous sign-in failed",e)}
   const fdb=F.getFirestore(app);
-  const code=e=>({code:e&&e.code==="permission-denied"?"invalid_argument":e&&e.code==="resource-exhausted"?"quota_exceeded":"unavailable",message:String(e&&e.message)});
+  const code=e=>({code:e&&e.code==="permission-denied"?"invalid_argument":e&&e.code==="resource-exhausted"?"quota_exceeded":"unavailable",raw:e&&e.code,message:String(e&&e.message||"")});
   const flat=(o,p="",out={})=>{for(const k in o){const v=o[k],key=p?p+"."+k:k;
     if(v&&typeof v==="object"&&!Array.isArray(v)&&Object.keys(v).length)flat(v,key,out);else out[key]=v}return out};
   return{collection:c=>({
