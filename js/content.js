@@ -25,10 +25,12 @@ window.SITE = {
     heroImage: "",
     aboutImage: "",             // תמונה שלך לאזור "קצת עליי", למשל "images/shifra.jpg"
     // רשתות חברתיות – מדביקים כאן את הקישור המלא לפרופיל
-    instagram: "",              // למשל "https://www.instagram.com/shifra.gabot"
+    instagram: "https://www.instagram.com/shifra.gabot",
     tiktok: "",                 // למשל "https://www.tiktok.com/@shifra.gabot"
     facebook: "",               // למשל "https://www.facebook.com/shifra.gabot"
-    googleReviews: "https://www.google.com/search?q=%D7%A9%D7%99%D7%A4%D7%A8%D7%94+%D7%92%D7%91%D7%95%D7%AA+%D7%A0%D7%A9%D7%A8"
+    googleReviews: "https://maps.google.com/?cid=4395428444497792291",   // הקישור לכרטיס העסק בגוגל מפות
+    googleRating: "5.0",        // הדירוג בגוגל (לעדכן מדי פעם)
+    googleReviewsCount: "17"    // מספר הביקורות בגוגל (לעדכן מדי פעם)
   },
 
   /* ---------- טיפולים ----------
@@ -158,7 +160,7 @@ window.SITE = {
     },
     {
       q: "מתי לקבוע איפור כלה?",
-      a: "מומלץ לשריין תאריך מוקדם ככל האפשר. כלה שרוצה איפור קבוע לגבות צריכה לעשות אותו לפחות חודשיים-שלושה לפני החתונה, כדי שיהיה זמן להחלמה ולהשלמה."
+      a: "מומלץ לשריין תאריך מוקדם ככל האפשר. כלה שרוצה איפור קבוע לגבות צריכה לעשות אותו 3–4 חודשים לפני החתונה, כדי שיהיה זמן להחלמה ולטיפול ההשלמה."
     }
   ]
 };

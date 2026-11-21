@@ -375,3 +375,7 @@ em, .italic { font-style: italic; }
   .banner__art { left: -12%; height: 105%; }
   .days { grid-template-columns: 1fr; }
 }
+
+/* navigation links under the address */
+.navlinks { display: block; margin-top: 6px; }
+.navlinks a { text-decoration: underline; text-underline-offset: 3px; }

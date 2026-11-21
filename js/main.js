@@ -78,7 +78,7 @@
     footer.outerHTML =
       '<footer class="footer"><div class="container">' +
       (B.logo ? '<img src="' + esc(B.logo) + '" alt="' + esc(B.name) + '" loading="lazy">' : "") +
-      '<div class="footer__links"><a href="index.html">דף הבית</a><a href="index.html#services">טיפולים ומחירים</a><a href="kalot.html">חבילות כלה</a><a href="horaot.html">הוראות לפני ואחרי</a><a href="index.html#contact">צור קשר</a></div>' +
+      '<div class="footer__links"><a href="index.html">דף הבית</a><a href="index.html#services">טיפולים ומחירים</a><a href="kalot.html">חבילות כלה</a><a href="horaot.html">הוראות לפני ואחרי</a><a href="index.html#contact">צור קשר</a><a href="accessibility.html">הצהרת נגישות</a></div>' +
       '<div>© ' + new Date().getFullYear() + ' ' + esc(B.name) + ' · ' + esc(B.address) + (B.phone ? ' · <a href="' + telLink() + '">' + esc(B.phone) + '</a>' : "") + '</div>' +
       '</div></footer>' +
       '<a class="wa-float" href="' + waLink() + '"' + EXT + ' aria-label="שליחת הודעה בוואטסאפ">' + ICON.wa + '</a>' +
@@ -150,7 +150,9 @@
       }).join("");
     } else {
       rv.innerHTML = '<div class="reviews-empty reveal"><div class="stars">★★★★★</div>' +
-        '<h3>הלקוחות ממליצות</h3><p>היית אצלי? אשמח מאוד אם תשאירי ביקורת בגוגל. זה עוזר לעוד נשים למצוא אותי 💕</p></div>';
+        '<h3>הלקוחות ממליצות</h3>' +
+        (B.googleRating && B.googleReviewsCount ? '<p><b>' + esc(B.googleRating) + '</b> בגוגל · ' + esc(B.googleReviewsCount) + ' ביקורות</p>' : "") +
+        '<p>היית אצלי? אשמח מאוד אם תשאירי ביקורת בגוגל. זה עוזר לעוד נשים למצוא אותי 💕</p></div>';
     }
   }
 
@@ -180,7 +182,9 @@
   var cl = $("#contactList");
   if (cl) {
     var rows = [];
-    rows.push('<li><span class="ico">' + ICON.pin + '</span><div><b>' + esc(B.address) + '</b><span>' + esc(B.addressNote) + '</span></div></li>');
+    var navQ = encodeURIComponent(B.address || "");
+    rows.push('<li><span class="ico">' + ICON.pin + '</span><div><b>' + esc(B.address) + '</b><span>' + esc(B.addressNote) + '</span>' +
+      '<span class="navlinks"><a href="https://waze.com/ul?q=' + navQ + '&navigate=yes"' + EXT + '>ניווט ב-Waze</a> · <a href="https://www.google.com/maps/dir/?api=1&destination=' + navQ + '"' + EXT + '>Google Maps</a></span></div></li>');
     if (B.phone) rows.push('<li><span class="ico">' + ICON.phone + '</span><div><a href="' + telLink() + '"><b>' + esc(B.phone) + '</b></a><span>שיחה או וואטסאפ</span></div></li>');
     rows.push('<li><span class="ico">' + ICON.clock + '</span><div><b>שעות פעילות</b><span>' + esc(B.hours) + '</span></div></li>');
     cl.innerHTML = rows.join("");
@@ -194,7 +198,19 @@
     if (!links.length) so.style.display = "none";
   }
 
+  /* ---------- FAQ structured data (home) ---------- */
+  if (page === "home" && S.faq && S.faq.length) {
+    var ld = document.createElement("script");
+    ld.type = "application/ld+json";
+    ld.text = JSON.stringify({
+      "@context": "https://schema.org", "@type": "FAQPage",
+      mainEntity: S.faq.map(function (f) { return { "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } }; })
+    });
+    document.head.appendChild(ld);
+  }
+
   /* ---------- Fill dynamic text & links ---------- */
+  $all("[data-tel]").forEach(function (el) { el.href = telLink(); });
   $all("[data-years]").forEach(function (el) { el.textContent = B.yearsExperience || "30"; });
   $all("[data-name]").forEach(function (el) { el.textContent = B.name; });
   $all("[data-google]").forEach(function (el) { el.href = B.googleReviews; });
