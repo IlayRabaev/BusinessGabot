@@ -1,0 +1,18 @@
+{
+  "name": "המגרש השכונתי",
+  "short_name": "המגרש",
+  "description": "ארגון משחקי כדורגל שכונתיים: הרשמה, קבוצות מאוזנות, שעון, ציונים ושחקן המשחק.",
+  "lang": "he",
+  "dir": "rtl",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#EDEFE8",
+  "theme_color": "#1E6A3A",
+  "icons": [
+    {"src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+    {"src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ]
+}
