@@ -1,10 +1,9 @@
-/* הדבק כאן את ההגדרות מ-Firebase (Project settings → Your apps → Web app → SDK setup and configuration → Config).
-   אלה לא סיסמאות: מותר שיהיו גלויים. ההגנה היא בכללי Firestore (firestore.rules). */
+/* Firebase project "hmigrash". These values are public by design; access is controlled by firestore.rules. */
 window.FIREBASE_CONFIG = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  projectId: "",
-  storageBucket: "YOUR_PROJECT.appspot.com",
-  messagingSenderId: "",
-  appId: ""
+  apiKey: "AIzaSyDvg7hEeJ0btYHZaDLUu-pWpRlDuI5Xkm0",
+  authDomain: "hmigrash.firebaseapp.com",
+  projectId: "hmigrash",
+  storageBucket: "hmigrash.firebasestorage.app",
+  messagingSenderId: "685008711274",
+  appId: "1:685008711274:web:62fd53420f9d919c2f2413"
 };
